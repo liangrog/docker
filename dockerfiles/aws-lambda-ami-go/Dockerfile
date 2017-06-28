@@ -10,8 +10,9 @@ RUN yum install -y git \
     && chmod 0700 /root/.ssh \
     && ssh-keyscan github.com > /root/.ssh/known_hosts
 
-# Force go to use ssh
-RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+# Make sure sh has the go path
+ENV PATH="$PATH:/usr/local/go/bin:~/go/bin"
 
-# Add go bin folders
-ENV PATH $PATH:/usr/local/go/bin:/root/go/bin
+# Add go path to all users
+COPY ./go.sh /etc/profile.d/
+
